@@ -64,7 +64,9 @@ export default angular.module('mm.onEnterViewport', [])
 					if (currentlyVisible !== visible) {
 						visible = currentlyVisible;
 						if (visible) {
-							callbackGetter(scope);
+							scope.$apply(function() {
+								callbackGetter(scope);
+							});
 						}
 					}
 				}
