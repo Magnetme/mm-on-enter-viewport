@@ -40,5 +40,5 @@ module.exports = {
 			new LessPluginNpmImport()
 		]
 	},
-	devtool : '#inline-source-map'
+//	devtool : '#inline-source-map'
 };
