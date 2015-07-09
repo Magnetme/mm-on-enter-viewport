@@ -14,19 +14,33 @@ module.exports = function(config) {
 
 
 		// list of files / patterns to load in the browser
-    files: testUtils.files.concat([
-      'out/index.js',
-      'test/loadTest.js',
-      'test/**/*.js',
-      'test/**/*.css',
-      'test/**/*.html'
-    ]),
+		files: testUtils.files.concat([
+			'out/index.js',
+			'node_modules/angular-mocks/angular-mocks.js',
+			'test/loadTest.js',
+			'test/**/*.js',
+			'test/**/*.css',
+			'test/**/*.html'
+		]),
 
 		// list of files to exclude
 		exclude: [
 		],
 
-    plugins : ["karma-jasmine", "karma-jasmine-html-reporter", "karma-phantomjs-launcher"],
+
+		plugins : ["karma-jasmine", "karma-jasmine-html-reporter", "karma-phantomjs-launcher", "karma-ng-html2js-preprocessor"],
+
+		customLaunchers: {
+			'PhantomJS_Desktop': {
+				base: 'PhantomJS',
+					options: {
+						viewportSize: {
+							width: 1920,
+							height: 1080
+					}
+				}
+			}
+		},
 
 
 		// preprocess matching files before serving them to the browser
