@@ -13,7 +13,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox', 'PhantomJS_Desktop'],
+    browsers: ['Chrome', 'Firefox', 'PhantomJS'],
     plugins: defaultConfig.plugins.concat(['karma-nested-reporter', 'karma-chrome-launcher', 'karma-firefox-launcher'])
 
   }));

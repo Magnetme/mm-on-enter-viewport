@@ -10,7 +10,7 @@ gulp.task('docs', function(done) {
       scripts : [
         __dirname + '/node_modules/babel-core/browser.js',
         __dirname + '/es6Eval.js',
-        __dirname + '/out/index.js'
+        __dirname + '/out/mm-on-enter-viewport.bundle.js'
       ],
       html5Mode : false //html5 mode makes the web server a lot more complicated
     }))
