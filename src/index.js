@@ -1,4 +1,6 @@
-import 'babel/polyfill';
+//babel/polyfill requires the native path module. Webpack has some magic to get it working, yoloader does not.
+//We don't absolutely need it now, and thus we temporarily disable the polyfill
+//import 'babel/polyfill';
 
 import angular from 'angular';
 
