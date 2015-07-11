@@ -45,7 +45,7 @@ export default angular.module('mm.onEnterViewport', [])
 	 *   </file>
 	 * </example>
 	 */
-	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewport) => {
+	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewport, $rootScope) => {
 
 		function isInView(element, thresholdBottom) {
 			const boundingRect = element.getBoundingClientRect();
@@ -57,7 +57,7 @@ export default angular.module('mm.onEnterViewport', [])
 			link : function (scope, elem, attrs) {
 				const callbackGetter = $parse(attrs.mmOnEnterViewport);
 				const thresholdBottom = attrs.thresholdBottom ? $parse(attrs.thresholdBottom)(scope) : mmOnEnterViewport.thresholdBottom;
-				const viewportEvents = ['scroll', 'resize'];
+				const viewportWindowEvents = ['scroll', 'resize'];
 
 				let visible = false;
 				function checkVisibility() {
@@ -72,9 +72,13 @@ export default angular.module('mm.onEnterViewport', [])
 					}
 				}
 
-				viewportEvents.forEach((event) => window.addEventListener(event, checkVisibility));
+				viewportWindowEvents.forEach((event) => window.addEventListener(event, checkVisibility));
+				document.addEventListener('ready', checkVisibility);
+				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', checkVisibility);
 				scope.$on('$destroy', function () {
-					viewportEvents.forEach((event) => window.removeListener(event, checkVisibility));
+					viewportWindowEvents.forEach((event) => window.removeListener(event, checkVisibility));
+					document.removeEventListener('ready', checkVisibility);
+					viewContentLoadedCanceler();
 				});
 				$timeout(checkVisibility);
 			}
