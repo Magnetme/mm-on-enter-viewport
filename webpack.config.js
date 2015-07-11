@@ -15,7 +15,11 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.js/,
-				loader: "babel"
+				loader: "babel",
+				exclude : /node_modules/,
+				query: {
+					optional : ['runtime', 'spec.protoToAssign']
+				}
 			},
 			{
 				test: /\.less$/,

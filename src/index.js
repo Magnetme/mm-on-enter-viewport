@@ -1,12 +1,12 @@
-//babel/polyfill requires the native path module. Webpack has some magic to get it working, yoloader does not.
-//We don't absolutely need it now, and thus we temporarily disable the polyfill
-//import 'babel/polyfill';
-
 import angular from 'angular';
 
 export default angular.module('mm.onEnterViewport', [])
-	.value('mmOnEnterViewportDefaults', {
-		thresholdBottom : 0
+	.provider('mmOnEnterViewport', function() {
+		let settings = {
+			thresholdBottom : 0
+		};
+		this.config = (config) => Object.assign(settings, config);
+		this.$get = () => settings;
 	})
 	/**
 	 * @ngdoc directive
@@ -20,7 +20,7 @@ export default angular.module('mm.onEnterViewport', [])
 	 *                                  E.g. if this is set to 0.3 then the callback will only fire when the element
 	 *                                  is in the upper 70% of the screen. Note that setting a too high value here
 	 *                                  will prevent elements at the bottom of the page to ever trigger the event.
-	 *                                  This value can also be configured globally with the
+	 *                                  This value can also be configured globally with the mmOnEnterViewportProvider (see example code)
 	 *
 	 * @example
 	 * <example module="on-enter-viewport-demo">
@@ -33,10 +33,9 @@ export default angular.module('mm.onEnterViewport', [])
 	 *   </file>
 	 *   <file name="app.js">
 	 *     angular.module('on-enter-viewport-demo', ['mm.onEnterViewport'])
-	 *       .config(($provide) => {
-	 *         $provide.decorator('mmOnEnterViewportDefaults', ($delegate) => {
-	 *           $delegate.thresholdBottom = 0.3;
-	 *           return $delegate;
+	 *       .config((mmOnEnterViewportProvider) => {
+	 *         mmOnEnterViewportProvider.config({
+	 *           thresholdBottom : 0.3
 	 *         });
 	 *       })
 	 *       .controller('viewport-demo-ctrl', ($scope) => {
@@ -46,7 +45,7 @@ export default angular.module('mm.onEnterViewport', [])
 	 *   </file>
 	 * </example>
 	 */
-	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewportDefaults) => {
+	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewport) => {
 
 		function isInView(element, thresholdBottom) {
 			const boundingRect = element.getBoundingClientRect();
@@ -57,7 +56,7 @@ export default angular.module('mm.onEnterViewport', [])
 			restrict : 'A',
 			link : function (scope, elem, attrs) {
 				const callbackGetter = $parse(attrs.mmOnEnterViewport);
-				const thresholdBottom = attrs.thresholdBottom ? $parse(attrs.thresholdBottom)(scope) : mmOnEnterViewportDefaults.thresholdBottom;
+				const thresholdBottom = attrs.thresholdBottom ? $parse(attrs.thresholdBottom)(scope) : mmOnEnterViewport.thresholdBottom;
 				const viewportEvents = ['scroll', 'resize'];
 
 				let visible = false;
