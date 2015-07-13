@@ -1,4 +1,5 @@
 import angular from 'angular';
+import ngInject from 'nginject';
 
 export default angular.module('mm.onEnterViewport', [])
 	.provider('mmOnEnterViewport', function() {
@@ -50,7 +51,7 @@ export default angular.module('mm.onEnterViewport', [])
 	 *   </file>
 	 * </example>
 	 */
-	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewport, $rootScope) => {
+	.directive('mmOnEnterViewport', ngInject(($timeout, $parse, mmOnEnterViewport, $rootScope) => {
 
 		function isInView(element, thresholdBottom) {
 			if (!element.getBoundingClientRect) {
@@ -98,4 +99,4 @@ export default angular.module('mm.onEnterViewport', [])
 				$timeout(checkVisibility);
 			}
 		};
-	});
+	}));
