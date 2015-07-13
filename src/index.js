@@ -92,7 +92,7 @@ export default angular.module('mm.onEnterViewport', [])
 				document.addEventListener('ready', checkVisibility);
 				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', checkVisibility);
 				scope.$on('$destroy', function () {
-					viewportWindowEvents.forEach((event) => window.removeListener(event, checkVisibility));
+					viewportWindowEvents.forEach((event) => window.removeEventListener(event, checkVisibility));
 					document.removeEventListener('ready', checkVisibility);
 					viewContentLoadedCanceler();
 				});
