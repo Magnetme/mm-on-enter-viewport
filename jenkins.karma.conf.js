@@ -19,7 +19,7 @@ module.exports = function(config) {
 
 		// start these browsers
 		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJS_Desktop'],
+		browsers: ['PhantomJS'],
     plugins : defaultConfig.plugins.concat(['karma-junit-reporter'])
 	}));
 };

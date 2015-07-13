@@ -6,7 +6,7 @@ module.exports = {
 	entry : './index.js',
 	output : {
 		path : __dirname + '/out/',
-		filename : 'index.js'
+		filename : 'mm-on-enter-viewport.bundle.js'
 	},
 	module: {
 		noParse : [
@@ -40,5 +40,5 @@ module.exports = {
 			new LessPluginNpmImport()
 		]
 	},
-//	devtool : '#inline-source-map'
+	devtool : '#inline-source-map'
 };

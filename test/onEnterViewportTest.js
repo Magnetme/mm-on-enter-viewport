@@ -22,16 +22,19 @@ describe('mm-on-enter-viewport', function() {
 			.catch(testUtil.asyncFail(done));
 	});
 
-	it('should not call the callback on load when the element is not initially in view', function(done) {
-		var firstSpy = el.scope().firstEnterViewport;
-		var secondSpy = el.scope().secondEnterViewport;
-		testUtil.waitFor(firstSpy.calls.any)
-			.then(function() {
-				expect(secondSpy).not.toHaveBeenCalled();
-				done();
-			})
-			.catch(testUtil.asyncFail(done));
-	});
+	//PhantomJS automatically resizes the viewport to the document size, so this test will never work there
+	if (!/PhantomJS/.test(window.navigator.userAgent)) {
+		it('should not call the callback on load when the element is not initially in view', function(done) {
+			var firstSpy = el.scope().firstEnterViewport;
+			var secondSpy = el.scope().secondEnterViewport;
+			testUtil.waitFor(firstSpy.calls.any)
+				.then(function() {
+					expect(secondSpy).not.toHaveBeenCalled();
+					done();
+				})
+				.catch(testUtil.asyncFail(done));
+		});
+	}
 
 	it('should call the callback when the element is scrolled into view', function(done){
 		window.scrollTo(0, 1000);
