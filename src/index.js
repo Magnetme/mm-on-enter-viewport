@@ -51,6 +51,7 @@ export default angular.module('mm.onEnterViewport', [])
 	 * </example>
 	 */
 	.directive('mmOnEnterViewport', ($timeout, $parse, mmOnEnterViewport, $rootScope) => {
+    "ngInject";
 
 		function isInView(element, thresholdBottom) {
 			if (!element.getBoundingClientRect) {
