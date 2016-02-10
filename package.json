@@ -1,6 +1,6 @@
 {
   "name": "mm-on-enter-viewport",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Directive to detect when an element has entered the viewport",
   "scripts": {
     "build-standalone": "npm run lint && webpack --progress --colors && gulp docs",
