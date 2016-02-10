@@ -81,19 +81,19 @@ export default angular.module('mm.onEnterViewport', [])
 						const triggerOnce = attrs.triggerOnce === 'true';
 						if (visible && (!triggerOnce || !triggered)) {
 							triggered = true;
-							scope.$apply(function() {
-								callbackGetter(scope);
-							});
+							callbackGetter(scope);
 						}
 					}
 				}
 
-				viewportWindowEvents.forEach((event) => window.addEventListener(event, checkVisibility));
-				document.addEventListener('ready', checkVisibility);
+				const checkVisibilityInScope = () => scope.$apply(checkVisibility);
+
+				viewportWindowEvents.forEach((event) => window.addEventListener(event, checkVisibilityInScope));
+				document.addEventListener('ready', checkVisibilityInScope);
 				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', checkVisibility);
 				scope.$on('$destroy', function () {
-					viewportWindowEvents.forEach((event) => window.removeEventListener(event, checkVisibility));
-					document.removeEventListener('ready', checkVisibility);
+					viewportWindowEvents.forEach((event) => window.removeEventListener(event, checkVisibilityInScope));
+					document.removeEventListener('ready', checkVisibilityInScope);
 					viewContentLoadedCanceler();
 				});
 				$timeout(checkVisibility);
