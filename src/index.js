@@ -1,4 +1,5 @@
 import angular from 'angular';
+import _ from 'lodash';
 
 export default angular.module('mm.onEnterViewport', [])
 	.provider('mmOnEnterViewport', function() {
@@ -74,21 +75,29 @@ export default angular.module('mm.onEnterViewport', [])
 				let visible = false;
 				let triggered = false;
 
-				function checkVisibility() {
+				function checkVisibility(callback) {
 					const currentlyVisible = isInView(elem[0], thresholdBottom);
 					if (currentlyVisible !== visible) {
 						visible = currentlyVisible;
 						const triggerOnce = attrs.triggerOnce === 'true';
 						if (visible && (!triggerOnce || !triggered)) {
 							triggered = true;
-							callbackGetter(scope);
+							if(callback){
+								scope.$apply(()=>{
+									callback(scope);	
+								});
+							}
 						}
 					}
 				}
 
-				const checkVisibilityInScope = () => scope.$apply(checkVisibility);
+				const checkVisibilityInScope = () => {
+					checkVisibility(callbackGetter);
+				};
 
-				viewportWindowEvents.forEach((event) => window.addEventListener(event, checkVisibilityInScope));
+				viewportWindowEvents.forEach(
+					(event) => window.addEventListener(event, _.debounce(checkVisibilityInScope, 500))
+				);
 				document.addEventListener('ready', checkVisibilityInScope);
 				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', checkVisibility);
 				scope.$on('$destroy', function () {
