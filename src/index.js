@@ -82,17 +82,19 @@ export default angular.module('mm.onEnterViewport', [])
 						const triggerOnce = attrs.triggerOnce === 'true';
 						if (visible && (!triggerOnce || !triggered)) {
 							triggered = true;
-							if(callback){
-								scope.$apply(()=>{
-									callback(scope);	
-								});
-							}
+							callback();
 						}
 					}
 				}
 
+				function triggerCallback(){
+					return callbackGetter(scope);
+				}
+
 				const checkVisibilityInScope = () => {
-					checkVisibility(callbackGetter);
+					checkVisibility(() => {
+						scope.$apply(triggerCallback);
+					});
 				};
 
 				viewportWindowEvents.forEach(
@@ -105,7 +107,7 @@ export default angular.module('mm.onEnterViewport', [])
 					document.removeEventListener('ready', checkVisibilityInScope);
 					viewContentLoadedCanceler();
 				});
-				$timeout(checkVisibility);
+				$timeout(() => checkVisibility(triggerCallback));
 			}
 		};
 	});
