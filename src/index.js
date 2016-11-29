@@ -101,7 +101,7 @@ export default angular.module('mm.onEnterViewport', [])
 					(event) => window.addEventListener(event, _.debounce(checkVisibilityInScope, 500))
 				);
 				document.addEventListener('ready', checkVisibilityInScope);
-				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', checkVisibility);
+				const viewContentLoadedCanceler = $rootScope.$on('$viewContentLoaded', () => checkVisibility(triggerCallback));
 				scope.$on('$destroy', function () {
 					viewportWindowEvents.forEach((event) => window.removeEventListener(event, checkVisibilityInScope));
 					document.removeEventListener('ready', checkVisibilityInScope);
