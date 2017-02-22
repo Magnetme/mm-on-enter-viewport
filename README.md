@@ -1,3 +1,5 @@
+[![Magnet.me Logo](https://cdn.magnet.me/images/logo-2015-full.svg)](https://magnet.me?ref=github-mm-on-enter-viewport "Discover the best companies, jobs and internships at Magnet.me")
+
 # mm-on-enter-viewport
 
 Directive to detect when an element has entered the viewport
