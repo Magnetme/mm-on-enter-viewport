@@ -1,5 +1,5 @@
 {
-  "name": "mm-on-enter-viewport",
+  "name": "@magnet.me/mm-on-enter-viewport",
   "version": "1.0.9",
   "description": "Directive to detect when an element has entered the viewport",
   "scripts": {
@@ -51,7 +51,7 @@
     "less-loader": "^2.2.0",
     "less-plugin-npm-import": "^2.1.0",
     "lodash": "^3.10.0",
-    "magnet-test-utils": "^1.0.0",
+    "@magnet.me/magnet-test-utils": "^1.0.0",
     "node-libs-browser": "^0.5.2",
     "phantomjs": "^1.9.17",
     "style-loader": "^0.12.3",
